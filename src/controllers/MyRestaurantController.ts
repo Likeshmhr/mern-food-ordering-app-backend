@@ -4,7 +4,7 @@ import cloudinary from "cloudinary";
 import mongoose from "mongoose";
 import Order from "../models/order";
 
-const getMyRestaurant = async (req: Request, res: Response):Promise<void> => {
+const getMyRestaurant = async (req: Request, res: Response)=> {
     try {
       const restaurant = await Restaurant.findOne({ user: req.userId });
       if (!restaurant) {
@@ -137,5 +137,6 @@ export default {
     createMyRestaurant,
     updateMyRestaurant,
     updateOrderStatus,
+    
     
 };
