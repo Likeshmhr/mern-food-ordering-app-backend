@@ -61,11 +61,11 @@ const searchRestaurant = async (req: Request, res: Response):Promise<void>   => 
             };
 
             res.json(response);
-    }catch(error){
-        console.log(error);
-        res.status(500).json({ message: "Something went wrong"});
-    }
-};
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Something went wrong" });
+          }
+        };
 
 // const restaurantController = {
 //     searchRestaurant,
