@@ -1,13 +1,25 @@
 import Stripe from "stripe";
 import {Request, Response } from "express";
 import Restaurant, { MenuItemType } from "../models/restaurant";
-import restaurant from "../models/restaurant";
 import Order from "../models/order";
-import { overwriteMiddlewareResult } from "mongoose";
 
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string);
 const FRONTEND_URL =process.env.FRONTEND_URL as String;
 const STRIPE_ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET as string;
+
+
+const getMyOrders = async (req: Request, res: Response) => {
+    try {
+      const orders = await Order.find({ user: req.userId })
+        .populate("restaurant")
+        .populate("user");
+  
+      res.json(orders);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "something went wrong" });
+    }
+  };
 
 type CheckoutSessionRequest = {
     cartItems: {
@@ -121,7 +133,7 @@ const createLineItems = (
         const line_item: Stripe.Checkout.SessionCreateParams.LineItem = {
             price_data:{
                 currency: "npr",
-                unit_amount: menuItem.price,
+                unit_amount: menuItem.price * 100,
                 product_data:{
                     name: menuItem.name,
                 },
@@ -169,6 +181,8 @@ const createSession = async (lineItems: Stripe.Checkout.SessionCreateParams.Line
 };
 
 export default {
-    createCheckoutSession,
-    stripeWebhookHandler,
+  getMyOrders,
+  createCheckoutSession,
+  stripeWebhookHandler,
+    
 };

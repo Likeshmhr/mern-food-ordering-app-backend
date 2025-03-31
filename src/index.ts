@@ -5,8 +5,6 @@ import mongoose from "mongoose";
 import myUserRoute from "./routes/MyUserRoute";
 import { v2 as cloudinary } from "cloudinary";
 import myRestaurantRoute from "./routes/MyRestaurantRoute";
-import restaurantRoute from "./routes/RestaurantRoute";
-import orderRoute from "./routes/OrderRoute";
 import RestaurantRoute from "./routes/RestaurantRoute";
 import OrderRoute from "./routes/OrderRoute";
 
@@ -22,7 +20,7 @@ cloudinary.config({
 
 
 const app = express();
-app.use(express.json());
+// app.use(express.json());
 app.use(cors());
 
 app.use("/api/order/checkout/webhook", express.raw({type: "*/*"}));
